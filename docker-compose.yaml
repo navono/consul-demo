@@ -14,6 +14,14 @@ services:
       - node.env
     volumes:
       - G://consul-data//:/tmp/data-dir
+    # expose:
+    #   - "8300"
+    #   - "8301"
+    #   - "8302"
+    #   - "8400"
+    #   - "8500"
+    #   - "8502"
+    #   - "8600"
     ports:
       - '8300:8300'
       - '8301:8301'
@@ -44,7 +52,7 @@ services:
   
   client:
     image: consul:latest
-    command: 'agent -retry-join consul1 -node=client -log-level=debug'
+    command: 'agent -retry-join consul1 -bind=0.0.0.0 -node=client -log-level=debug'
     env_file: 
       - client.env
     container_name: 'client'
