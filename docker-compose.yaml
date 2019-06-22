@@ -41,6 +41,27 @@ services:
     networks:
       docker-consul:
         ipv4_address: 172.16.238.12
+  
+  client:
+    image: consul:latest
+    command: 'agent -retry-join consul1 -node=client -log-level=debug'
+    env_file: 
+      - client.env
+    container_name: 'client'
+    depends_on:
+      - consul1
+    ports:
+      - '9300:8300'
+      - '9301:8301'
+      - '9302:8302'
+      - '9400:8400'
+      - '9500:8500'
+      - '9502:8502'
+      - '9600:53/udp'
+    networks:
+      docker-consul:
+        ipv4_address: 172.16.238.13
+
   registrator:
     image: gliderlabs/registrator:latest
     container_name: registrator
