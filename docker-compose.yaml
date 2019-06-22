@@ -1,0 +1,51 @@
+version: "3"
+services: 
+  consul1:
+    build:
+      context: ./consul
+      dockerfile: ./Dockerfile
+    container_name: consul1
+    restart: always
+    command: 'agent -server -data-dir=/tmp/data-dir -bootstrap-expect=3 -ui -client=0.0.0.0 -node=consul1 -log-level=debug'
+    networks:
+      docker-consul:
+        ipv4_address: 172.16.238.10
+    env_file: 
+      - node.env
+    volumes:
+      - G://consul-data//:/tmp/data-dir
+    ports:
+      - '8300:8300'
+      - '8301:8301'
+      - '8302:8302'
+      - '8400:8400'
+      - '8500:8500'
+      - '8502:8502'
+      - '8600:53/udp'
+  consul2:
+    build: ./consul
+    command: 'agent -server -retry-join consul1 -node=consul2 -log-level=debug'
+    container_name: 'consul2'
+    depends_on:
+      - consul1
+    networks:
+      docker-consul:
+        ipv4_address: 172.16.238.11
+
+  consul3:
+    build: ./consul
+    command: 'agent -server -retry-join consul1 -node=consul3 -log-level=debug'
+    container_name: 'consul3'
+    depends_on:
+      - consul1
+    networks:
+      docker-consul:
+        ipv4_address: 172.16.238.12
+
+networks:
+  docker-consul:
+    driver: bridge
+    ipam:
+      driver: default
+      config:
+        - subnet: 172.16.238.0/24
