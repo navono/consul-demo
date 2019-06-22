@@ -41,6 +41,16 @@ services:
     networks:
       docker-consul:
         ipv4_address: 172.16.238.12
+  registrator:
+    image: gliderlabs/registrator:latest
+    container_name: registrator
+    volumes: 
+      - /var/run/docker.sock:/tmp/docker.sock
+    depends_on: 
+      - consul1
+    networks:
+      - docker-consul
+    command: '-ip="192.168.200.101" consul://consul1:8500'
 
 networks:
   docker-consul:
