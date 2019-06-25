@@ -44,7 +44,7 @@ services:
   
   client:
     image: consul:latest
-    command: 'agent -retry-join consul1 -bind=0.0.0.0 -client=0.0.0.0 -node=client -log-level=debug -ui'
+    command: 'agent -config-dir=/conf -retry-join consul1 -bind=0.0.0.0 -client=0.0.0.0 -node=client -log-level=debug -ui'
     env_file: 
       - client.env
     container_name: 'client'
@@ -58,6 +58,8 @@ services:
       - '8500:8500'
       - '8502:8502'
       - '8600:53/udp'
+    volumes:
+      - ./conf:/conf
     networks:
       docker-consul:
         ipv4_address: 172.16.238.13

@@ -1,0 +1,7 @@
+[template]
+src = "config.conf.tmpl"
+dest = "./config.conf"
+keys = [
+  "/url",
+  "/user",
+]

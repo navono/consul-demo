@@ -1,0 +1,24 @@
+{
+  "services": [
+    {
+      "id": "rt0",
+      "name": "realtimeService",
+      "tags": [
+        "leader"
+      ],
+      "address": "192.168.1.1",
+      "port": 6000,
+      "checks": []
+    },
+    {
+      "id": "rt1",
+      "name": "realtimeService",
+      "tags": [
+        "follower"
+      ],
+      "address": "192.168.1.2",
+      "port": 6000,
+      "checks": []
+    }
+  ]
+}
